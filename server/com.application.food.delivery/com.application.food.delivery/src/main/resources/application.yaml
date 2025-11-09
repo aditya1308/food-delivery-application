@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: com.application.food.delivery
+
+server:
+  port: 8090
