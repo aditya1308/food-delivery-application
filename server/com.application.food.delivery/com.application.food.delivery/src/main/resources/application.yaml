@@ -15,6 +15,16 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+kafka:
+  bootstrap-servers: localhost:9092   # your local Kafka broker
+  consumer:
+    group-id: food-delivery-group     # unique group id for consumers
+    auto-offset-reset: earliest       # consume from beginning if no offset found
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 server:
   port: 8090
