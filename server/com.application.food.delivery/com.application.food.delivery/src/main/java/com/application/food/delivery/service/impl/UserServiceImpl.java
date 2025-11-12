@@ -2,6 +2,8 @@ package com.application.food.delivery.service.impl;
 
 import com.application.food.delivery.config.PasswordConfig;
 import com.application.food.delivery.dto.UserEntityDTO;
+import com.application.food.delivery.exception.InvalidPasswordException;
+import com.application.food.delivery.exception.UserNotFoundException;
 import com.application.food.delivery.model.UserEntity;
 import com.application.food.delivery.repository.UserRepository;
 import com.application.food.delivery.service.UserService;
@@ -39,8 +41,7 @@ public class UserServiceImpl implements UserService {
     public boolean login(UserEntityDTO user) {
         Optional<UserEntity> optionalUser = userRepository.findByEmail(user.getEmail());
         if(optionalUser.isEmpty()){
-            throw new RuntimeException("User not found");
-          //  return false;
+            throw new UserNotFoundException("User does not exist, Please register");
         }
         UserEntity userEntity = optionalUser.get();
         boolean passwordMatch = passwordEncoder.matches(user.getPassword(), userEntity.getPassword());
@@ -49,9 +50,7 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         else {
-            throw new RuntimeException("Password is wrong");
-            //System.out.print("Wrong password");
-          //  return false;
+            throw new InvalidPasswordException("Invalid password");
         }
 
     }
