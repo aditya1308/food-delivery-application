@@ -18,7 +18,7 @@ public class UserEntity {
     )
     @NotBlank(message = "Email cannot be blank")
     private String email;
-
+    private String name;
     @Pattern(
             regexp = "^[6-9]\\d{9}$",
             message = "Invalid phone number. Must be 10 digits and start with 6–9"

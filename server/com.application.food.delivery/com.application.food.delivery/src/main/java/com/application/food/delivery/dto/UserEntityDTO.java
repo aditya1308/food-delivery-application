@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class UserEntityDTO {
     private long id;
+    private String name;
     private String phoneNumber;
     private String password;
     private String createdAt;
