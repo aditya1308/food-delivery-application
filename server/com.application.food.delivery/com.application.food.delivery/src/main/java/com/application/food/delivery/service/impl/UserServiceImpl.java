@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
     public boolean resetPassword(Map<String, String> req) {
         log.info("In reset Password");
         Optional<UserEntity> optionalUser = Optional.empty();
