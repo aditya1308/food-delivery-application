@@ -24,6 +24,11 @@ public class GlobalExceptionHandler{
         return buildResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(InvalidOtpException.class)
+    public ResponseEntity<?> handleInvalidPassword(InvalidOtpException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     private ResponseEntity<?> buildResponse(String message, HttpStatus httpStatus) {
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", LocalDateTime.now());
