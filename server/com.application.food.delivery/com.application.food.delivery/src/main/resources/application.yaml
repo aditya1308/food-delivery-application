@@ -10,7 +10,7 @@ spring:
       host: smtp.gmail.com
       port: 587
       username: service.cab.app@gmail.com
-      password: qgrizchibivtlwpb   # your Gmail App Password
+      password:   # your Gmail App Password
       properties:
         mail:
           smtp:
@@ -19,7 +19,7 @@ spring:
               enable: true
 fast2:
   sms:
-    api-key: Vi3xjqkTmLbHvlsR2uJpwg6EO9ZtoIMBdecC5nzXyGrP0QY4fh07z3ktW8vSN9EFhVIOJQL51Dxis2BM
+    api-key:
     url: https://www.fast2sms.com/dev/bulkV2
     content-type: application/json
 
@@ -32,16 +32,16 @@ fast2:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
-#kafka:
-#  bootstrap-servers: localhost:9092   # your local Kafka broker
-#  consumer:
-#    group-id: food-delivery-group     # unique group id for consumers
-#    auto-offset-reset: earliest       # consume from beginning if no offset found
-#    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#  producer:
-#    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-#    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+kafka:
+  bootstrap-servers: localhost:9092   # your local Kafka broker
+  consumer:
+    group-id: food-delivery-group     # unique group id for consumers
+    auto-offset-reset: earliest       # consume from beginning if no offset found
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 server:
   port: 8090
