@@ -7,7 +7,6 @@ import com.application.food.delivery.model.UserEntity;
 import com.application.food.delivery.repository.UserRepository;
 import com.application.food.delivery.service.UserService;
 import com.application.food.delivery.util.OtpService;
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

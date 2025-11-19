@@ -6,20 +6,20 @@ spring:
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
-    mail:
-      host: smtp.gmail.com
-      port: 587
-      username: service.cab.app@gmail.com
-      password:   # your Gmail App Password
-      properties:
-        mail:
-          smtp:
-            auth: true
-            starttls:
-              enable: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: service.cab.app@gmail.com
+    password:   # your Gmail App Password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 fast2:
   sms:
-    api-key:
+    api-key: 
     url: https://www.fast2sms.com/dev/bulkV2
     content-type: application/json
 
