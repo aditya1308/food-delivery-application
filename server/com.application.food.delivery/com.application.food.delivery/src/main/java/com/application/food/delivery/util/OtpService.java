@@ -4,6 +4,7 @@ import com.application.food.delivery.exception.InvalidOtpException;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,6 +27,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class OtpService {
+
+    @Value("${app.otp.dev-mode}")
+    private boolean devMode;
+
 
     private final JavaMailSender mailSender;
 
@@ -48,6 +54,7 @@ public class OtpService {
     // Store OTPs for both email and mobile (thread-safe)
     private final Map<String, OtpInfo> otpStore = new ConcurrentHashMap<>();
 
+    @Autowired
     public OtpService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
@@ -84,6 +91,13 @@ public class OtpService {
     // ✅ Send OTP via Mobile (Fast2SMS API)
     public String sendOtpToMobile(String mobileNo) {
         String otp = generateOtp(); // Generate random OTP
+        if (devMode) {
+            otpStore.put(mobileNo, new OtpInfo(otp, System.currentTimeMillis()));
+            verificationStatus.put(mobileNo, true);
+            log.info("\uD83D\uDCA1 [DEV MODE] OTP for {}: {}", mobileNo, otp);
+            return "✅ [DEV MODE] OTP generated: " + otp;
+        }
+
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
 

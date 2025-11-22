@@ -56,7 +56,7 @@ public class UserController {
 
         String result = otpService.sendOtpToMobile(req.get("mobile"));
 
-        if (result.contains("success")) {
+        if (result.contains("generated")) {
             return ResponseEntity.ok("📱 OTP sent to mobile successfully");
         }
 
@@ -77,6 +77,11 @@ public class UserController {
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> req) {
         boolean isPasswordReset = userServiceImpl.resetPassword(req);
         return isPasswordReset ? ResponseEntity.ok().body("Password rest successful") : ResponseEntity.badRequest().body("Try again later!");
+    }
+
+    @GetMapping("/get-details")
+    public ResponseEntity<?> getUserDetails() {
+         return ResponseEntity.ok().body("Successful!");
     }
 
 }

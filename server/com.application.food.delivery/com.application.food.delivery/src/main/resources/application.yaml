@@ -6,24 +6,17 @@ spring:
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
-    mail:
-      host: smtp.gmail.com
-      port: 587
-      username: service.cab.app@gmail.com
-      password:   # your Gmail App Password
-      properties:
-        mail:
-          smtp:
-            auth: true
-            starttls:
-              enable: true
-fast2:
-  sms:
-    api-key:
-    url: https://www.fast2sms.com/dev/bulkV2
-    content-type: application/json
-
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: service.cab.app@gmail.com
+    password: agag # your Gmail App Password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   jpa:
     hibernate:
       ddl-auto: update   # options: create | update | validate | none
@@ -32,6 +25,12 @@ fast2:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+fast2:
+  sms:
+    api-key: ahha
+    url: https://www.fast2sms.com/dev/bulkV2
+    content-type: application/json
+
 kafka:
   bootstrap-servers: localhost:9092   # your local Kafka broker
   consumer:
@@ -50,3 +49,11 @@ logging:
   level:
     org.apache.kafka: ERROR
     org.apache.kafka.clients.NetworkClient: ERROR
+    org:
+      springframework:
+        security: TRACE
+
+app:
+  otp:
+    dev-mode: true
+
