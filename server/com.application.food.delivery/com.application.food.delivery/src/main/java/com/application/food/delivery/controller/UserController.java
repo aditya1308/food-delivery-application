@@ -1,11 +1,16 @@
 package com.application.food.delivery.controller;
 
 import com.application.food.delivery.dto.UserEntityDTO;
+import com.application.food.delivery.service.JwtService;
 import com.application.food.delivery.service.impl.UserServiceImpl;
 import com.application.food.delivery.util.OtpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -18,11 +23,40 @@ public class UserController {
     @Autowired
     private OtpService otpService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtService jwtService;
+
      @PostMapping("/login")
      public ResponseEntity<?> login(@RequestBody UserEntityDTO user) {
          userServiceImpl.login(user);
       return ResponseEntity.ok().body("Login successful");
      }
+
+    @PostMapping("/loginAuth")
+    public ResponseEntity<?> loginAuth(@RequestBody UserEntityDTO user) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getEmail(),
+                            user.getPassword()
+                    )
+            );
+            String token = jwtService.generateToken(
+                    authentication.getName(),
+                    "USER",  // or fetch role from DB
+                    user.getEmail()
+            );
+
+            return ResponseEntity.ok(token);
+        }
+        catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid email or password");
+        }
+    }
 
      @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserEntityDTO user) {
