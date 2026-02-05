@@ -3,6 +3,7 @@ package com.application.food.delivery.config;
 import com.application.food.delivery.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -61,29 +62,51 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
-
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(
-                        auth -> auth
-                        // --- Allow public admin signup & signin ---
-                        .requestMatchers("/api/v1/admin/signup", "/api/v1/admin/signin").permitAll()
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
 //
-//                        // --- If you want more public endpoints, add here ---
-//                        // .requestMatchers(HttpMethod.POST, "/api/v1/sendtomail").permitAll()
+//        http
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//                .csrf(csrf -> csrf.disable())
+//                .authorizeHttpRequests(
+//                        auth -> auth
+//                        // --- Allow public admin signup & signin ---
+//                                .requestMatchers(
+//                                        "/api/v1/admin/signup",
+//                                        "/api/v1/admin/signin",
+//                                        "/api/v1/address/**",
+//                                        "/restaurants",
+//                                        "/restaurants/**",
+//                                        "/error"
+//                                ).permitAll()
+//                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                                .anyRequest().authenticated()
+////                        // --- If you want more public endpoints, add here ---
+////                        // .requestMatchers(HttpMethod.POST, "/api/v1/sendtomail").permitAll()
+////
+////                        // --- Everything else requires JWT authentication ---
 //
-//                        // --- Everything else requires JWT authentication ---
-                        .anyRequest().authenticated()
-                               // .anyRequest().permitAll()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//                               // .anyRequest().permitAll()
+//                )
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        return http.build();
-    }
+    http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                    .anyRequest().permitAll() // Allow ALL requests without authentication
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+    // No JWT filter added for now
+    return http.build();
+}
 
 
 }

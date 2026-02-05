@@ -1,10 +1,14 @@
 package com.application.food.delivery.service.impl;
 
+import com.application.food.delivery.dto.LatLngResponse;
 import com.application.food.delivery.dto.UserEntityDTO;
 import com.application.food.delivery.exception.InvalidPasswordException;
 import com.application.food.delivery.exception.UserNotFoundException;
+import com.application.food.delivery.model.AddressEntity;
+import com.application.food.delivery.model.RestaurantEntity;
 import com.application.food.delivery.model.UserEntity;
 import com.application.food.delivery.repository.UserRepository;
+import com.application.food.delivery.service.LatLngFinderService;
 import com.application.food.delivery.service.UserService;
 import com.application.food.delivery.util.OtpService;
 import org.apache.catalina.User;
@@ -28,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private OtpService otpService;
+    @Autowired
+    private LatLngFinderService latLngFinderService;
 
     Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 

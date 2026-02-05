@@ -1,7 +1,10 @@
 package com.application.food.delivery.controller;
 
 import com.application.food.delivery.dto.UserEntityDTO;
+import com.application.food.delivery.model.AddressEntity;
+import com.application.food.delivery.model.RestaurantEntity;
 import com.application.food.delivery.service.JwtService;
+import com.application.food.delivery.service.OlaMapService;
 import com.application.food.delivery.service.impl.UserServiceImpl;
 import com.application.food.delivery.util.OtpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,11 @@ public class UserController {
     @Autowired
     private JwtService jwtService;
 
-     @PostMapping("/login")
+    @Autowired
+    private OlaMapService olaMapsService;
+
+
+    @PostMapping("/login")
      public ResponseEntity<?> login(@RequestBody UserEntityDTO user) {
          userServiceImpl.login(user);
       return ResponseEntity.ok().body("Login successful");
@@ -117,7 +124,12 @@ public class UserController {
     public ResponseEntity<?> getUserDetails() {
          return ResponseEntity.ok().body("Successful!");
     }
+//    MAP
 
+    @GetMapping("/address/search")
+    public ResponseEntity<String> searchAddress(@RequestParam String query) {
+        return ResponseEntity.ok(olaMapsService.autocomplete(query));
+    }
 }
 
 

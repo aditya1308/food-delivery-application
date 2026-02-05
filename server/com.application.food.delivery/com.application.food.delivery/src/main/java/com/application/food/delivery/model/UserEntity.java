@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 public class UserEntity {
@@ -29,4 +32,6 @@ public class UserEntity {
     private String createdAt;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AddressEntity> addresses = new ArrayList<>();
 }

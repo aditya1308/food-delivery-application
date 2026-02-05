@@ -62,3 +62,10 @@ jwt:
   secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
   # 1h in milliseconds
   expiration-time: 3600000
+
+#  Map Added
+ola:
+  client-id: 490999be-8198-4707-a337-a1498b6a2993
+  client-secret: ef9a45c1dc444f5f9a1498a672b46352
+  token-url: https://api.olamaps.io/auth/v1/token
+  base-url: https://api.olamaps.io
