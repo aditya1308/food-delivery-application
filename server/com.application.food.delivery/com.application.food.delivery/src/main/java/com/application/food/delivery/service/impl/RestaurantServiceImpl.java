@@ -30,8 +30,8 @@ public class RestaurantServiceImpl {
                 );
 
         UserEntity userEntity = userRepository.findById(id).orElse(null);
-        restaurant.setLatitude(latLng.latitude);
-        restaurant.setLongitude(latLng.longitude);
+        restaurant.setLatitude(latLng.getLatitude());
+        restaurant.setLongitude(latLng.getLongitude());
         restaurant.setOwnerId(userEntity);
         restaurantRepository.save(restaurant);
     }

@@ -7,7 +7,6 @@ import com.application.food.delivery.service.JwtService;
 import com.application.food.delivery.service.OlaMapService;
 import com.application.food.delivery.service.impl.UserServiceImpl;
 import com.application.food.delivery.util.OtpService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,25 +14,29 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
-    @Autowired
-    private UserServiceImpl userServiceImpl;
 
-    @Autowired
-    private OtpService otpService;
+    private final UserServiceImpl userServiceImpl;
+    private final OtpService otpService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+    private final OlaMapService olaMapsService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private OlaMapService olaMapsService;
+    public UserController(UserServiceImpl userServiceImpl, OtpService otpService,
+                         AuthenticationManager authenticationManager, JwtService jwtService,
+                         OlaMapService olaMapsService) {
+        this.userServiceImpl = userServiceImpl;
+        this.otpService = otpService;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+        this.olaMapsService = olaMapsService;
+    }
 
 
     @PostMapping("/login")
@@ -124,11 +127,25 @@ public class UserController {
     public ResponseEntity<?> getUserDetails() {
          return ResponseEntity.ok().body("Successful!");
     }
-//    MAP
+
+
+    // MAP related APIs
+    @PostMapping("/add-address/{id}")
+    public ResponseEntity<?>createRestaurant(@PathVariable Long id, @RequestBody AddressEntity address ) {
+        userServiceImpl.createRestaurant(id, address);
+        return ResponseEntity.ok().body("Address added successfully!");
+
+    }
 
     @GetMapping("/address/search")
     public ResponseEntity<String> searchAddress(@RequestParam String query) {
         return ResponseEntity.ok(olaMapsService.autocomplete(query));
+    }
+
+    @GetMapping("/get-restaurants/{id}")
+    public ResponseEntity<?> getRestaurants(@PathVariable Long id) {
+        List<RestaurantEntity> serviceableRestaurants = userServiceImpl.getRestaurants(id);
+        return ResponseEntity.ok(serviceableRestaurants);
     }
 }
 
