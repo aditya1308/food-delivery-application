@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         String email = userEntity.getEmail();
         if(OtpService.getVerificationStatus().getOrDefault(email,true) && OtpService.getVerificationStatus().getOrDefault(mobileNumber,true)) {
             log.info("User verified");
-            //userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+            userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(userEntity);
             OtpService.getVerificationStatus().remove(email);
             OtpService.getVerificationStatus().remove(mobileNumber);
