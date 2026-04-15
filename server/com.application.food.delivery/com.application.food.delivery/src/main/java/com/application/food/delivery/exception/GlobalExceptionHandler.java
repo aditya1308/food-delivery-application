@@ -15,24 +15,25 @@ public class GlobalExceptionHandler{
     // 🔹 Handles UserNotFoundException
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFound(UserNotFoundException ex) {
-        return buildResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return buildResponse(ex.getMessage(), HttpStatus.NOT_FOUND, "error");
     }
 
     // 🔹 Handles InvalidPasswordException
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<?> handleInvalidPassword(InvalidPasswordException ex) {
-        return buildResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+        return buildResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED, "error");
     }
 
     @ExceptionHandler(InvalidOtpException.class)
-    public ResponseEntity<?> handleInvalidPassword(InvalidOtpException ex) {
-        return buildResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<?> handleInvalidOtp(InvalidOtpException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, "error");
     }
 
-    private ResponseEntity<?> buildResponse(String message, HttpStatus httpStatus) {
+    private ResponseEntity<?> buildResponse(String message, HttpStatus httpStatus, String status) {
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", LocalDateTime.now());
-        response.put("message", message);;
+        response.put("message", message);
+        response.put("status", status);
         return new ResponseEntity<>(response, httpStatus);
     }
 }
